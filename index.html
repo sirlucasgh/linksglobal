@@ -2,12 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>All Links</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <title>CV Link Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(to right, #fffde7, #e3f2fd);
+      background-image: url('background.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       margin: 0;
       padding: 0;
       transition: background 0.4s, color 0.4s;
@@ -16,18 +19,25 @@
     .dark-mode {
       background: #121212;
       color: #eee;
+      background-image: none;
     }
 
     .container {
       max-width: 800px;
-      margin: auto;
+      margin: 50px auto;
       padding: 30px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark-mode .container {
+      background-color: rgba(30, 30, 30, 0.9);
     }
 
     h1 {
       text-align: center;
       color: #007BFF;
-      margin-bottom: 20px;
     }
 
     .dark-mode h1 {
@@ -54,17 +64,40 @@
       color: #00bfa5;
     }
 
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 25px;
+    .toggle {
+      text-align: center;
+      margin-bottom: 20px;
     }
 
-    .dark-mode .card {
-      background: #1e1e1e;
-      box-shadow: 0 0 10px rgba(255,255,255,0.05);
+    .search {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    input {
+      padding: 12px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 80%;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background-color: #007BFF;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+      margin-left: 5px;
+    }
+
+    button:hover {
+      background-color: #00bfa5;
     }
 
     .link-list a {
@@ -84,31 +117,6 @@
       text-decoration: underline;
     }
 
-    button {
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      background-color: #007BFF;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #00bfa5;
-    }
-
-    input {
-      padding: 12px;
-      margin-top: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
     .footer {
       text-align: center;
       padding: 15px;
@@ -120,16 +128,11 @@
     .dark-mode .footer {
       color: #bbb;
     }
-
-    .toggle {
-      text-align: center;
-      margin-bottom: 20px;
-    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🌐 LinksGlobal</h1>
+    <h1>🌐 Welcome to LinksGlobal</h1>
 
     <nav>
       <a href="index.html">🏠 Home</a> |
@@ -141,11 +144,11 @@
     </div>
 
     <!-- Search Bar -->
-    <div class="card search">
+    <div class="search">
       <input 
         type="text" 
         id="searchBox" 
-        placeholder="Search all links..." 
+        placeholder="Search links..." 
         onkeypress="if(event.key === 'Enter') searchLinks()"
       />
       <button onclick="searchLinks()">🔍 Search</button>
@@ -153,44 +156,38 @@
     </div>
 
     <!-- Link List -->
-    <div class="card link-list" id="linkList">Loading links...</div>
+    <div class="link-list" id="linkList">Loading...</div>
 
-    <div class="footer" id="footerTime">Updated...</div>
+    <div class="footer" id="footerTime">📅 Fetching latest update...</div>
   </div>
 
   <script>
-    // URL to your GitHub raw JSON file (replace with your actual repo URL)
-    const GITHUB_JSON_URL = "https://raw.githubusercontent.com/yourusername/yourrepo/main/links.json";
+    const JSON_URL = "https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPO/main/links.json"; // Replace!
 
-    let links = [];
+    let allLinks = [];
 
     async function fetchLinks() {
       try {
-        const response = await fetch(GITHUB_JSON_URL);
-        if (!response.ok) throw new Error('Network response was not ok');
-        links = await response.json();
-        renderLinks();
+        const res = await fetch(JSON_URL);
+        allLinks = await res.json();
+        renderLinks(allLinks);
         updateFooterTime();
-      } catch (error) {
-        document.getElementById("linkList").textContent = "Failed to load links.";
-        console.error("Error fetching links:", error);
+      } catch (err) {
+        document.getElementById("linkList").innerText = "⚠️ Failed to load links.";
+        console.error(err);
       }
     }
 
-    function renderLinks(filter = "") {
+    function renderLinks(links) {
       const list = document.getElementById("linkList");
       list.innerHTML = "";
 
-      const filteredLinks = links.filter(link =>
-        link.title.toLowerCase().includes(filter.toLowerCase())
-      );
-
-      if (filteredLinks.length === 0) {
-        list.textContent = "No matching links found.";
+      if (links.length === 0) {
+        list.innerHTML = "<p>No links found.</p>";
         return;
       }
 
-      filteredLinks.forEach(link => {
+      links.forEach(link => {
         const a = document.createElement("a");
         a.href = link.url;
         a.target = "_blank";
@@ -200,13 +197,16 @@
     }
 
     function searchLinks() {
-      const searchValue = document.getElementById("searchBox").value.trim();
-      renderLinks(searchValue);
+      const searchValue = document.getElementById("searchBox").value.trim().toLowerCase();
+      const filtered = allLinks.filter(link =>
+        link.title.toLowerCase().includes(searchValue)
+      );
+      renderLinks(filtered);
     }
 
     function clearSearch() {
       document.getElementById("searchBox").value = "";
-      renderLinks();
+      renderLinks(allLinks);
     }
 
     function toggleDarkMode() {

@@ -1,5 +1,4 @@
 [
-  { "title": "Google", "url": "https://www.google.com" },
-  { "title": "Wikipedia", "url": "https://www.wikipedia.org" },
-  { "title": "OpenAI", "url": "https://www.openai.com" }
+  { "title": "Sir Lucas CV", "url": "https://example.com/cv" },
+  { "title": "GitHub Profile", "url": "https://github.com/sirlucas" }
 ]
