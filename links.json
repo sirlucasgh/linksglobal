@@ -7,16 +7,13 @@
     "url": "https://compressjpeg.com", 
     "description": "Reduce the Size of JPEG images" },
   
-  {
-    "title": "Google",
+  { "title": "Google",
     "url": "https://www.google.com",
     "description": "A popular search engine for finding information on the web."
   },
-  {
-    "title": "OpenAI",
+  { "title": "OpenAI",
     "url": "https://www.openai.com",
     "description": "An AI research and deployment company behind ChatGPT."
   }
-
 
 ]
