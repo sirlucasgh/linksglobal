@@ -166,12 +166,12 @@
         return;
       }
 
-      links.forEach(link => {
+      
      links.forEach(link => {
   const a = document.createElement("a");
   a.href = link.url;
   a.target = "_blank";
-  a.textContent = link.name;
+  a.textContent = link.title;
 
   const p = document.createElement("p");
   p.textContent = link.description || "";
