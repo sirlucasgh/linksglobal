@@ -185,13 +185,22 @@
         return;
       }
 
-      links.forEach(link => {
-        const a = document.createElement("a");
-        a.href = link.url;
-        a.target = "_blank";
-        a.textContent = link.title;
-        list.appendChild(a);
-      });
+   links.forEach(link => {
+  const a = document.createElement("a");
+  a.href = link.url;
+  a.target = "_blank";
+  a.textContent = link.name;
+
+  const p = document.createElement("p");
+  p.textContent = link.description || "";
+
+  const div = document.createElement("div");
+  div.appendChild(a);
+  div.appendChild(p);
+
+  list.appendChild(div);
+});
+
     }
 
     function searchLinks() {
